@@ -1,25 +1,29 @@
-import { Length, UNIT } from '../../src/Length'
+import { UNIT, addLength, Length, getRelativeUnitMultiplier } from '../../src/Length'
 describe('Length Addition Test', () => {
     it("should be able to add to another length in metres", () => {
-        const lengthInMetres = new Length(4.0, UNIT.METRE);
-        expect(JSON.stringify(lengthInMetres.add(new Length(3.0, UNIT.METRE)))).toBe(JSON.stringify(new Length(7.0, UNIT.METRE)))
+        const length1: Length = { value: 4.0, unit: UNIT.METRE };
+        const length2 = { value: 3.0, unit: UNIT.METRE }
+        expect(addLength(length1, length2)).toStrictEqual({ value: 7.0, unit: UNIT.METRE })
     })
 
-    it("should be able to add metres to centimetres", () => {
-        const length1 = new Length(3.0, UNIT.METRE);
-        const length2 = new Length(50.0, UNIT.CENTIMETRE);
-        expect(JSON.stringify(length1.add(length2))).toStrictEqual(JSON.stringify(new Length(3.5, UNIT.METRE)))
+    it("should be able to add metres to centimeters", () => {
+        const length1: Length = { value: 3.0, unit: UNIT.METRE };
+        const length2 = { value: 50.0, unit: UNIT.CENTIMETRE }
+        expect(addLength(length1, length2)).toStrictEqual({ value: 3.50, unit: UNIT.METRE })
     })
 
-    it("should be able to convert metres to centimetres", () => {
-        expect(JSON.stringify(new Length(3.3, UNIT.METRE).to(UNIT.CENTIMETRE))).toBe(JSON.stringify(new Length(330.0, UNIT.CENTIMETRE)))
+    it("should get relative multiplier to convert metres to centimetres", () => {
+        expect(getRelativeUnitMultiplier(UNIT.METRE, UNIT.CENTIMETRE)).toBe(100.0)
     })
 
-    it("should be able to convert centimetres to metres", () => {
-        expect(JSON.stringify(new Length(550.0, UNIT.CENTIMETRE).to(UNIT.METRE))).toBe(JSON.stringify(new Length(5.50, UNIT.METRE)))
+    it("should get relative multiplier to convert centimetres to metres", () => {
+        expect(getRelativeUnitMultiplier(UNIT.CENTIMETRE, UNIT.METRE)).toBe(0.01)
+
     })
 
     it("should be able to add centimetres to metres", () => {
-        expect(JSON.stringify(new Length(340.0, UNIT.CENTIMETRE).add(new Length(0.60, UNIT.METRE)))).toBe(JSON.stringify(new Length(400.0, UNIT.METRE)))
+        const length1: Length = { value: 340.0, unit: UNIT.CENTIMETRE };
+        const length2 = { value: 0.60, unit: UNIT.METRE }
+        expect(addLength(length1, length2)).toStrictEqual({ value: 400.0, unit: UNIT.CENTIMETRE })
     })
 })
