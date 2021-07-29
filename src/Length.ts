@@ -1,11 +1,22 @@
 export class Length {
     private value: number;
-
-    constructor(value: number) {
+    private unit: UNIT;
+    constructor(value: number, unit: UNIT) {
         this.value = value;
+        this.unit = unit;
     }
 
     add(length: Length): Length {
-        return new Length(length.value + this.value)
+        let convertedValue;
+        switch (length.unit) {
+            case UNIT.CENTIMETRE: convertedValue = (length.value / 100.0); break;
+            default: convertedValue = length.value
+        }
+        return new Length(convertedValue + this.value, UNIT.METRE)
     }
+}
+
+
+export enum UNIT {
+    METRE, CENTIMETRE
 }
