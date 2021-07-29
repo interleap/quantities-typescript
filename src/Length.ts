@@ -6,6 +6,8 @@ export class Length {
         this.unit = unit;
     }
 
+    to = (targetUnit: UNIT): Length => new Length((this.value * this.unit) / targetUnit, targetUnit)
+
     add(length: Length): Length {
         let convertedValue;
         switch (length.unit) {
@@ -18,5 +20,5 @@ export class Length {
 
 
 export enum UNIT {
-    METRE, CENTIMETRE
+    METRE = 100, CENTIMETRE = 1
 }
