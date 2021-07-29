@@ -18,4 +18,8 @@ describe('Length Addition Test', () => {
     it("should be able to convert centimetres to metres", () => {
         expect(JSON.stringify(new Length(550.0, UNIT.CENTIMETRE).to(UNIT.METRE))).toBe(JSON.stringify(new Length(5.50, UNIT.METRE)))
     })
+
+    it("should be able to add centimetres to metres", () => {
+        expect(JSON.stringify(new Length(340.0, UNIT.CENTIMETRE).add(new Length(0.60, UNIT.METRE)))).toBe(JSON.stringify(new Length(400.0, UNIT.METRE)))
+    })
 })
